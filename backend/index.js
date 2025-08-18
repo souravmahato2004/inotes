@@ -11,10 +11,6 @@ app.use(express.json());
 app.use('/api/auth',require('./routes/auth'));
 app.use('/api/notes',require('./routes/notes'));
 
-// app.get('/login', (req, res) => {
-//   res.send('Hello bro I am sourav!');
-// });
-
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`iNotes app listening on port ${port}`);
 });
