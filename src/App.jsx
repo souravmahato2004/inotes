@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import About from './components/About';
 import Home from './components/Home';
 import NotesState from './context/notes/NotesState';
+import Alert from './components/Alert';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
     <NotesState>
       <BrowserRouter>
         <Navbar/>
+        <Alert message="hey" type="warning"/>
         <div className="container">
           <Routes>
           <Route index element={<Home />} />

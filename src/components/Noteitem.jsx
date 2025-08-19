@@ -5,6 +5,8 @@ export default function Noteitem({ note }) {
         <div className="card-body">
           <h5 className="card-title">{note.title}</h5>
           <p className="card-text">{note.description}</p>
+          <i class="ri-delete-bin-fill"></i>
+          <i class="ri-edit-box-fill"></i>
         </div>
       </div>
     </div>
