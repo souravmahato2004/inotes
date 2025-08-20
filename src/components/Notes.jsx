@@ -1,9 +1,12 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import NoteContext from "../context/notes/NotesContext";
 import Noteitem from "./Noteitem";
 export default function Notes() {
-    const contex=useContext(NoteContext);
-    const {notes,addNote}=contex;
+    const context= useContext(NoteContext);
+    const {notes,getNotes}=context;
+    useEffect(()=>{
+        getNotes()
+    },[])
     return (
         <>
         <div className="container">
