@@ -60,8 +60,27 @@ export default function NotesState(props) {
 
   const [notes,setNotes]=useState(initialNotes);
 
+  const addNote=(title, description, tag)=>{
+    const note={
+    "_id": "68a21a8260d74021d7b6f9d6",
+    "user": "6898745d2e4b3bae7b6b3b59",
+    "title": title,
+    "description": description,
+    "tag": tag,
+    "date": "2025-08-17T18:08:02.219Z",
+    "__v": 0
+    }
+    setNotes(notes.concat(note));
+  }
+  const deleteNote=()=>{
+
+  }
+  const editNote=()=>{
+
+  }
+
   return (
-    <NoteContext.Provider value={{notes,setNotes}}>
+    <NoteContext.Provider value={{notes,addNote,deleteNote,editNote}}>
       {props.children}
     </NoteContext.Provider>
   )

@@ -3,7 +3,7 @@ import NoteContext from "../context/notes/NotesContext";
 import Noteitem from "./Noteitem";
 export default function Notes() {
     const contex=useContext(NoteContext);
-    const {notes,setNotes}=contex;
+    const {notes,addNote}=contex;
     return (
         <>
         <div className="container">
