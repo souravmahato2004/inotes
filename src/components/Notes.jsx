@@ -3,24 +3,28 @@ import NoteContext from "../context/notes/NotesContext";
 import Noteitem from "./Noteitem";
 export default function Notes() {
     const context= useContext(NoteContext);
-    const {notes,getNotes}=context;
+    const {notes,getNotes,editNote}=context;
     useEffect(()=>{
         getNotes()
     },[])
     const ref=useRef(null)
+    const refClose=useRef(null)
+    
     const updateNote=(currnote)=>{
         ref.current.click();
-        setNote(currnote);
+        setNote({id:currnote._id,etitle:currnote.title,edescription:currnote.description, etag:currnote.tag});
     }
     
-    const [enote,setNote]=useState({title:"",description:"",tag:""})
+    const [enote,setNote]=useState({id:"", etitle:"",edescription:"",etag:""})
 
     const handleSubmit=(e)=>{
         e.preventDefault();
-        addNote(enote.title,enote.description,enote.tag);
+        editNote(enote.id,enote.etitle,enote.edescription,enote.etag);
+        refClose.current.click();
+
     }
     const handleChange=(e)=>{
-        setNote({...enote,[e.target.name]:e.target.value})
+        setNote({...enote,[e.target.name]:e.target.value});
     }
 
     return (
@@ -38,20 +42,20 @@ export default function Notes() {
             <div className="modal-body">
                 <div className="mb-3">
                 <label htmlFor="title" className="form-label">Title</label>
-                <input type="text" value={enote.title} className="form-control" id="etitle" name="etitle" onChange={handleChange} />
+                <input type="text" value={enote.etitle} className="form-control" id="etitle" name="etitle" onChange={handleChange} />
                 </div>
                 <div className="mb-3">
                 <label htmlFor="edescription" className="form-label">Description</label>
-                <input type="text" value={enote.description} className="form-control" id="edescription" name="edescription" onChange={handleChange}/>
+                <input type="text" value={enote.edescription} className="form-control" id="edescription" name="edescription" onChange={handleChange}/>
                 </div>
                 <div className="mb-3">
                 <label htmlFor="etag" className="form-label">Tag</label>
-                <input type="text"value={enote.tag} className="form-control" id="etag" name="etag" onChange={handleChange}/>
+                <input type="text"value={enote.etag} className="form-control" id="etag" name="etag" onChange={handleChange}/>
                 </div>
             </div>
             <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-primary" onClick={handleSubmit}>Save changes</button>
+                <button type="button" ref={refClose} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" disabled={enote.edescription.length<5 || enote.etitle.length<5} className="btn btn-primary" onClick={handleSubmit}>Save changes</button>
             </div>
             </div>
         </div>

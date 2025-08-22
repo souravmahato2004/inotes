@@ -29,7 +29,7 @@ export default function AddNote() {
             <label htmlFor="tag" className="form-label">Tag</label>
             <input type="text" className="form-control" id="tag" name="tag" onChange={handleChange}/>
             </div>
-            <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Save Note</button>
+            <button disabled={note.description.length<5 || note.title.length<5} type="submit" className="btn btn-primary" onClick={handleSubmit}>Save Note</button>
         </form>
     </div>
   )

@@ -16,16 +16,7 @@ export default function NotesState(props) {
       },
       body: JSON.stringify({title,description,tag})
     });
-    const json=await response.json();
-    const note={
-    "user": "6898745d2e4b3bae7b6b3b59",
-    "title": title,
-    "description": description,
-    "tag": tag,
-    "_id": "68a628c8aaa497ec6c5ec2b4",
-    "date": "2025-08-20T19:58:00.080Z",
-    "__v": 0
-  }
+    const note=await response.json();
     setNotes(notes.concat(note));
   }
 
@@ -49,29 +40,33 @@ export default function NotesState(props) {
       }
     });
     const json=await response.json();
-    setNotes(json);
+    console.log(json);
     const newNote=notes.filter((note)=>{return note._id!=id});
     setNotes(newNote);
   }
   const editNote=async(id,title,description,tag)=>{
     const response= await fetch(`${host}/api/notes/updatenote/${id}`,{
-      method: 'POST',
+      method: 'PUT',
       headers:{
         'Content-Type':'application/json',
         'auth-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg5ODc0NWQyZTRiM2JhZTdiNmIzYjU5In0sImlhdCI6MTc1NDk5NjM3Mn0.EWPAOwy_Oio-3N0gbGyeTlQzZJbbk-jt9XNp0rAhxyw'
       },
       body: JSON.stringify({title,description,tag})
     });
-    const json=response.json();
+    const json=await response.json();
+    console.log(json);
 
+    const newNote=JSON.parse(JSON.stringify(notes));
     for(let index=0;index<notes.length;index++){
       const ele=notes[index];
       if(ele._id==id){
-        ele.title=title;
-        ele.description=description;
-        ele.tag=tag;
+        newNote[index].title=title;
+        newNote[index].description=description;
+        newNote[index].tag=tag;
+        break;
       }
     }
+    setNotes(newNote);
   }
 
   return (
