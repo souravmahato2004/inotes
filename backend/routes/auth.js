@@ -15,6 +15,7 @@ router.post('/createuser',[
     body('email','Enter a valid email').isEmail(),
     body('password','Password must be of atleast 8 characters').isLength({min:8}),
 ],async (req,res)=>{
+    let success=false;
     const errors=validationResult(req);
     if(! errors.isEmpty()){
         return res.status(400).json({errors:errors.array()});   
@@ -22,7 +23,7 @@ router.post('/createuser',[
     try{
         let user=await User.findOne({email:req.body.email});
         if(user){
-            return res.status(400).json({error: "Sorry user is already exist"})
+            return res.status(400).json({success,error: "Sorry user is already exist"})
         }
         const salt=await bcrypt.genSalt(10);
         const securePass=await bcrypt.hash(req.body.password, salt);
@@ -37,7 +38,8 @@ router.post('/createuser',[
             }
         }
         const jwtData=jwt.sign(data,JWT_SECRET);
-        res.json({jwtData});
+        success=true;
+        res.json({success,jwtData});
     }
     catch(error){
         console.log(error);
@@ -55,14 +57,15 @@ router.post('/login',[
     body('password','Password cant be blank').exists(),
 ],async (req,res)=>{
     const errors=validationResult(req);
+    let success=false;
     if(! errors.isEmpty()){
-        return res.status(400).json({errors:errors.array()});   
+        return res.status(400).json({success,errors:errors.array()});   
     } 
     const {email,password}=req.body;
     try{
         let user=await User.findOne({email});
         if(!user){
-            res.status(400).json({error:"Try to login with correct credentials"});
+            res.status(400).json({success,error:"Try to login with correct credentials"});
         }
         const passwordCompare=await bcrypt.compare(password,user.password);
         if(!passwordCompare){
@@ -75,7 +78,8 @@ router.post('/login',[
             }
         }
         const jwtData=jwt.sign(data,JWT_SECRET);
-        res.json({jwtData});
+        success=true;
+        res.json({success,jwtData});
     }
     catch(err){
         console.log(error);
@@ -92,7 +96,7 @@ router.post('/getuser',fetchuser, async (req,res)=>{
         res.send(user);
     }
     catch(err){
-            console.log(error);
+            console.log(err);
             res.status(500).send("Internal Server Error");
         }
 })
