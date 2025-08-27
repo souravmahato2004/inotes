@@ -1,8 +1,10 @@
 import { useContext, useState, useEffect, useRef } from "react";
 import NoteContext from "../context/notes/NotesContext";
+import { useAlert } from "../context/Alert/AlertContext";
 import Noteitem from "./Noteitem";
 export default function Notes() {
     const context= useContext(NoteContext);
+    const { showAlert } = useAlert();
     const {notes,getNotes,editNote}=context;
     useEffect(()=>{
         getNotes()
@@ -20,6 +22,7 @@ export default function Notes() {
     const handleSubmit=(e)=>{
         e.preventDefault();
         editNote(enote.id,enote.etitle,enote.edescription,enote.etag);
+        showAlert("Saved successfully!", "success", 1500)
         refClose.current.click();
 
     }
@@ -61,7 +64,7 @@ export default function Notes() {
         </div>
         </div>
         <div className="container">
-            <h1>You Notes</h1>
+            <h1>Your Notes</h1>
             <div className="row">{notes.map((note)=>{
                 return(<Noteitem key={note._id} updatenote={updateNote} note={note}/>)
             })}</div>

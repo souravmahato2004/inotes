@@ -5,17 +5,17 @@ import Navbar from './components/Navbar';
 import About from './components/About';
 import Home from './components/Home';
 import NotesState from './context/notes/NotesState';
-import Alert from './components/Alert';
 import Signup from './components/Signup';
 import Login from './components/Login';
+import { AlertProvider } from './context/Alert/AlertContext';
 
 function App() {
   return (
     <>
     <NotesState>
-      <BrowserRouter>
+      <AlertProvider>
+        <BrowserRouter>
         <Navbar/>
-        <Alert message="hey" type="warning"/>
         <div className="container">
           <Routes>
           <Route index element={<Home />} />
@@ -25,6 +25,7 @@ function App() {
         </Routes>
         </div>
       </BrowserRouter>
+      </AlertProvider>
     </NotesState>
     </>
   )

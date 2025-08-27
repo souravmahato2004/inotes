@@ -1,6 +1,8 @@
 import { useContext, useState } from "react"
+import { useAlert } from "../context/Alert/AlertContext";
 import NoteContext from "../context/notes/NotesContext"
 export default function AddNote() {
+    const {showAlert}= useAlert();
     const contex=useContext(NoteContext);
     const {addNote}=contex;
     const [note,setNote]=useState({title:"",description:"",tag:"default"})
@@ -8,6 +10,7 @@ export default function AddNote() {
     const handleSubmit=(e)=>{
         e.preventDefault();
         addNote(note.title,note.description,note.tag);
+        showAlert("New Note Added successfully!", "success", 1500)
     }
     const handleChange=(e)=>{
         setNote({...note,[e.target.name]:e.target.value})
