@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import {useNavigate} from 'react-router-dom'
+import { useAlert } from '../context/Alert/AlertContext';
 
 export default function Login() {
   const [credentails,setCred]=useState({email:"", password:""})
+  const {showAlert}=useAlert();
   let navigate= useNavigate();
   const handleSubmit=async (e)=>{
     e.preventDefault();
@@ -18,10 +20,11 @@ export default function Login() {
     if(json.success){
       // save the authToken and redirect
        localStorage.setItem('token',json.jwtData);
+       showAlert("Login successfully!", "success", 1500)
        navigate('/');
     }
     else{
-      alert("INVALID CREDENTIALS");
+      showAlert("Invalid Credentials!", "danger", 1500)
     }
 
   }

@@ -1,7 +1,9 @@
 import React,{useState} from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useAlert } from '../context/Alert/AlertContext';
 
 export default function Signup() {
+  const {showAlert}= useAlert();
   const [credentails,setCred]=useState({name:"",email:"", password:"", cpassword:""})
   const navigate=useNavigate();
     const handleSubmit=async (e)=>{
@@ -16,7 +18,11 @@ export default function Signup() {
       const json =await response.json();
       console.log(json);
       if(json.success){
+        showAlert("Account Created Successfully!", "success", 1500)
         navigate("/");
+      }
+      else{
+        showAlert("Invalid Details!", "danger", 1500)
       }
   
     }

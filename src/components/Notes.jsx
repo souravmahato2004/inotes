@@ -2,12 +2,20 @@ import { useContext, useState, useEffect, useRef } from "react";
 import NoteContext from "../context/notes/NotesContext";
 import { useAlert } from "../context/Alert/AlertContext";
 import Noteitem from "./Noteitem";
+import { useNavigate } from "react-router-dom";
 export default function Notes() {
     const context= useContext(NoteContext);
     const { showAlert } = useAlert();
     const {notes,getNotes,editNote}=context;
+    const nav=useNavigate();
     useEffect(()=>{
-        getNotes()
+        if(localStorage.getItem('token')){
+            getNotes()
+        }
+        else{
+            showAlert("Signup to Use Notes!", "warning", 1500)
+            nav('/signup')
+        }
     },[])
     const ref=useRef(null)
     const refClose=useRef(null)
